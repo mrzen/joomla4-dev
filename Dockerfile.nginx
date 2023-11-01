@@ -1,0 +1,4 @@
+FROM nginx:mainline
+LABEL maintainer "Leo Adamek <leo.adamek@mrzen.com>"
+
+COPY config/nginx.conf /etc/nginx/nginx.conf

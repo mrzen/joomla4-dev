@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mariadb:11.1
+    hostname: mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: joomla4
+    volumes:
+      - mysql_data:/var/lib/mysql:Z
+  adminer:
+    image: adminer
+    depends_on: [mysql]
+    ports:
+      - 8085:8080
+  nginx:
+    depends_on: [php]
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./www:/var/www:ro
+  php:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.php
+    hostname: php 
+    volumes:
+      - ./www:/var/www
+volumes:
+  mysql_data: {}
